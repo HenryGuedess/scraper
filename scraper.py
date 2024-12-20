@@ -29,10 +29,15 @@ def get_all_opens_from_page(url) -> list:
             page = browser.new_page()
             page.goto(url)
             page.wait_for_load_state('load')
+            buttons = page.query_selector_all(".form-guide-overview-selection__toggle-button")
+            for button in buttons:
+                page.evaluate("(el) => el.scrollIntoView({behavior: 'smooth', block: 'center'})", button)
+
+                button.click(force=True)
             html = page.content()
+
+            # SOPA
             soup = BeautifulSoup(html, 'html.parser')
-            for tag in soup.find_all('tr', attrs={'data-v-7151d989': True}):
-                tag.decompose()
             divs = soup.find_all('div', class_='form-guide-overview-insight-card__content-item')
 
             open_values = []
@@ -122,9 +127,6 @@ def scrape_race_info():
                 table = [table[i] for i in range(len(table)) if i % 2 == 0]
 
                 for row in table:  # Skip header row
-
-                    print(type(horse_table.find_all('tr')))
-
                     horse_data = {}
                     cells = row.find_all(['td', 'th'])
                     for i, cell in enumerate(cells):
