@@ -32,8 +32,13 @@ def get_all_opens_from_page(url) -> list:
             buttons = page.query_selector_all(".form-guide-overview-selection__toggle-button")
             for button in buttons:
                 page.evaluate("(el) => el.scrollIntoView({behavior: 'smooth', block: 'center'})", button)
-
                 button.click(force=True)
+
+            tabs = page.query_selector_all(".data-v-ac5acd23")
+            for tab in tabs:
+                tab.click(force=True)
+
+
             html = page.content()
 
             # SOPA
@@ -43,7 +48,6 @@ def get_all_opens_from_page(url) -> list:
             open_values = []
 
             for div in divs:
-                print(div)
                 spans = div.find_all('span')
                 if spans and spans[0].text.strip() == "Open":
                     open_values.append(spans[1].text.strip())
