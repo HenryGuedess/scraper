@@ -34,9 +34,9 @@ def get_all_opens_from_page(url) -> list:
                 page.evaluate("(el) => el.scrollIntoView({behavior: 'smooth', block: 'center'})", button)
                 button.click(force=True)
 
-            tabs = page.query_selector_all(".data-v-ac5acd23")
-            for tab in tabs:
-                tab.click(force=True)
+                tabs = buttons
+                for tab in tabs:
+                    tab.click(force=True)
 
 
             html = page.content()
